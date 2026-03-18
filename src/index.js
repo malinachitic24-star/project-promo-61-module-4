@@ -75,7 +75,7 @@ app.post("/products", async (req, res) => {
     id: results.insertId,
   });
 });
-
+//Esto creo que no haace falta
 app.delete("/products/:id", async (req, res) => {
   const connection = await getConnection();
   const id = req.params.id;
@@ -126,7 +126,6 @@ app.get("/cart", async (req, res) => {
 
 app.post("/cart", async (req, res) => {
   const connection = await getConnection();
-
   const { quantity, product_id } = req.body;
 
   const sql = `
@@ -151,7 +150,7 @@ app.get("/cart-view", async (req, res) => {
   const [results] = await connection.query(sql);
 
   //Números
-  results.forEach(item => {
+  results.forEach((item) => {
     item.price = Number(item.price);
   });
 

@@ -39,10 +39,10 @@
             const button = document.createElement("button");
             button.textContent = "Añadir al carrito";
             button.addEventListener("click", () => {
-              fetch("https://localhost:3000/cart", {
+              fetch("/cart", {
                 method: "POST",
                 headers: {
-                  "Content-Type": "aplication/json",
+                  "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                   quantity: 1,
