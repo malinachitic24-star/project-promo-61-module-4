@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Carrito</h1>
+            <ul>
+                <% cart.forEach(function(item) { %>
+                    <li>
+                        ID: <%= item.idcart %> 
+                          |Producto: <%= item.name %>
+                          |Cantidad: <%= item.quantity %> 
+                          |Precio: <%= item.price.toFixed(2) %>€
+                          |Subtotal: <%= (item.price * item.quantity).toFixed(2) %>€
+                    </li>
+                <% }) %>
+    </ul>
+    <%
+    let total = 0;
+    for (const item of cart) {
+        const subtotal = item.price * item.quantity;
+        total = total + subtotal;
+    }
+    %>
+    <p>Total final del carrito: <%= total.toFixed(2)%>€</p>
+    </body>
+</html>
+
+

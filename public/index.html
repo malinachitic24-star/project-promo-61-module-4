@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alta de productos</title>
+  </head>
+  <body>
+    <h1>Alta de productos</h1>
+
+    <form id="form-product">
+      <label for="name">Nombre</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="price">Precio</label>
+      <input type="number" id="price" name="price" step="0.01" required />
+
+      <label for="category">Categoría</label>
+      <input type="text" id="category" name="category" required />
+
+      <label for="stock">Stock</label>
+      <input type="number" id="stock" name="stock" required />
+
+      <button type="submit">Guardar producto</button>
+    </form>
+
+    <h2>Productos disponibles</h2>
+    <ul id="product-list"></ul>
+
+    <script>
+      fetch("http://localhost:3000/products")
+        .then((res) => res.json())
+        .then((products) => {
+          const list = document.getElementById("product-list");
+
+          products.forEach((product) => {
+            const li = document.createElement("li");
+            li.textContent = `${product.name} - ${product.price}€`;
+            const button = document.createElement("button");
+            button.textContent = "Añadir al carrito";
+            button.addEventListener("click", () => {
+              fetch("https://localhost:3000/cart", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "aplication/json",
+                },
+                body: JSON.stringify({
+                  quantity: 1,
+                  product_id: product.idproducts,
+                }),
+              });
+            });
+            li.appendChild(button);
+            list.appendChild(li);
+          });
+        });
+    </script>
+
+    <script>
+      const form = document.getElementById("form-product");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const data = {
+          name: document.getElementById("name").value,
+          price: document.getElementById("price").value,
+          category: document.getElementById("category").value,
+          stock: document.getElementById("stock").value,
+        };
+
+        const response = await fetch("http://localhost:3000/products", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        console.log(result);
+
+        alert("Producto guardado");
+        form.reset();
+      });
+    </script>
+  </body>
+</html>
