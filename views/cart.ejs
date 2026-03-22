@@ -9,6 +9,8 @@
                           |Cantidad: <%= item.quantity %> 
                           |Precio: <%= item.price.toFixed(2) %>€
                           |Subtotal: <%= (item.price * item.quantity).toFixed(2) %>€
+                    
+                    <button class="delete-btn" data-id="<%=item.idcart %>">Eliminar</button>
                     </li>
                 <% }) %>
     </ul>
@@ -21,6 +23,27 @@
     %>
     <p>Total final del carrito: <%= total.toFixed(2)%>€</p>
     </body>
+
+    <script>
+  const deleteButtons = document.querySelectorAll(".delete-btn");
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const id = button.dataset.id;
+
+      const response = await fetch(`/cart/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        console.log("Error al eliminar");
+      }
+    });
+  });
+</script>
+
 </html>
 
 
